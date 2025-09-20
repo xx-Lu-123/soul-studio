@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🌌 劫魂工作室｜星空入口</title>
+  <style>
+    :root{
+      --bg:#070914; --bg2:#0b1022; --panel:#0e1630; --text:#e6f2ff; --muted:#9fb3c8;
+      --accent:#00ffe7; --accent-soft:rgba(0,255,231,.18);
+      --card:#121a39; --shadow:0 10px 30px rgba(0,0,0,.45); --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0;}
+    body{display:flex; flex-direction:column; justify-content:flex-start; min-height:100vh; color:var(--text); font-family:"Noto Sans TC", sans-serif; background:radial-gradient(circle at 50% 30%, #1a2456 0%, #0a0f24 60%, #060814 100%);}
+    header{ position:relative; top:0; background:rgba(10,15,30,.7); backdrop-filter:blur(10px); z-index:10; }
+    .nav{ max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:16px; padding:12px 16px }
+    .brand{ font-weight:800; letter-spacing:.5px }
+    .nav a{ color:var(--text); text-decoration:none; padding:10px 12px; border-radius:12px }
+    .nav a.active, .nav a:hover{ background:rgba(0,255,231,.08); box-shadow:0 0 18px var(--accent-soft) }
+    .spacer{ flex:1 }
+    .btn{ appearance:none; border:0; padding:12px 18px; border-radius:12px; cursor:pointer; font-weight:700; background:linear-gradient(135deg, #67e8f9, #a7f3d0); color:#031018; font-size:16px }
+    .btn.secondary{ background:rgba(255,255,255,.06); color:var(--text); border:1px solid rgba(255,255,255,.12) }
+    main{ flex:1; max-width:1100px; margin:40px auto; padding:0 16px }
+    section{ margin-bottom:24px }
+    .panel{ background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); margin-bottom:20px }
+    h1,h2{ margin-top:0 }
+    .muted{ color:var(--muted) }
+    .grid{ display:grid; gap:16px }
+    @media(min-width:800px){ .grid.cols-3{ grid-template-columns:repeat(3,1fr) } .grid.cols-2{ grid-template-columns:repeat(2,1fr) } }
+    .card{ background:var(--panel); border-radius:12px; padding:30px; box-shadow:var(--shadow) }
+    footer{ text-align:center; padding:20px; color:var(--muted); margin-top:auto }
+    .danger{ color:#ffb3c1 }
+    .field{ display:grid; gap:6px; margin-bottom:16px }
+    label{ font-size:15px; color:var(--muted) }
+    input{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:var(--text); border-radius:12px; padding:14px; outline:none; font-size:16px }
+    .userpill{ display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); padding:6px 12px; border-radius:20px }
+    .welcome{ font-size:28px; font-weight:700; color:#7fffd4; margin:20px 0; text-align:center; }
+  </style>
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="brand">劫魂工作室</div>
+      <a href="#home" data-nav="home">🏠 主頁</a>
+      <a href="#services" data-nav="services">🛠️ 工作室服務</a>
+      <a href="https://discord.gg/T8eA2WWhjW" target="_blank">💬 Discord</a>
+      <div class="spacer"></div>
+      <div id="authArea"></div>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home">
+      <div class="panel">
+        <h1>🌌 歡迎來到劫魂工作室</h1>
+        <p class="muted">我們致力於遊戲開發、網頁設計、discord製作等等服務，打造多元的互動體驗。</p>
+        <div id="welcomeMsg"></div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <h2>🏢 工作室介紹</h2>
+          <p class="muted">劫魂工作室專注於遊戲、互動網站與各式各樣的專案，融合程式與科技。</p>
+        </div>
+        <div class="card">
+          <h2>🛠️ 工作室服務</h2>
+          <p class="muted">提供遊戲開發、互動網站設計、各種訂製服務。</p>
+        </div>
+        <div class="card">
+          <h2>📢 工作室動態</h2>
+          <p class="muted">近期專案：Godot 遊戲、互動網頁、專案策畫製作。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" style="display:none">
+      <div class="panel">
+        <h1>🌟 專業服務項目 🌟</h1>
+        <p class="muted">🎮 Minecraft | 🎲 TRPG | 🎬 遊戲 & 創作全方位支援</p>
+        <p class="muted">想讓你的作品更專業、更完整？<br>
+        我能為你提供 <strong>從遊戲建構、內容創作，到影片呈現</strong> 的全方位協助！</p>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <h2>🧱 Minecraft 服務</h2>
+          <ul class="muted">
+            <li>✨ 專屬建築設計：打造獨一無二的伺服器建築風格</li>
+            <li>🔧 模組安裝 / 配置：安裝、優化、除錯</li>
+            <li>🎥 Replay Mod 剪輯：高質感回放與宣傳影片</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>🎲 TRPG 服務</h2>
+          <ul class="muted">
+            <li>🌍 世界觀架構：協助構建完整遊戲世界</li>
+            <li>🩹 規則與劇情漏洞修補：體驗更流暢</li>
+            <li>📑 管理支援：角色資料、流程管理</li>
+            <li>⚡ 快速教學：帶領新手快速上手 TRPG</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>💻 其他創作服務</h2>
+          <ul class="muted">
+            <li>🎬 視頻剪輯：遊戲影片、宣傳片、vlog</li>
+            <li>🌐 網站製作：HTML 前後端、設計與功能</li>
+            <li>🎮 遊戲製作支援：系統規劃與開發建議</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:20px">
+        <p class="muted">💡 不論是 Minecraft、TRPG，還是遊戲與網站創作，我都能成為你的最佳幫手！</p>
+        <p class="muted">📩 歡迎聯繫合作，一起實現你的創意 🎉</p>
+        <p class="muted danger">！價格實惠，歡迎洽談！</p>
+      </div>
+    </section>
+    <section id="auth" style="display:none">
+      <div class="grid cols-2">
+        <div class="card">
+          <h2 style="font-size:26px">🔒 登入</h2>
+          <form onsubmit="login(event)">
+            <div class="field">
+              <label for="loginEmail">Email</label>
+              <input id="loginEmail" type="email" required placeholder="you@example.com">
+            </div>
+            <div class="field">
+              <label for="loginPassword">密碼</label>
+              <input id="loginPassword" type="password" required>
+            </div>
+            <button class="btn" type="submit">登入</button>
+          </form>
+          <hr style="margin:20px 0; border:1px solid rgba(255,255,255,.1)">
+          <div id="g_id_onload"
+               data-client_id="77113728575-ca1s75fj6ocok3vhs7toph3dafc2l5v4.apps.googleusercontent.com"
+               data-context="signin"
+               data-ux_mode="popup"
+               data-callback="handleGoogleResponse"
+               data-auto_select="true"
+               data-itp_support="true"></div>
+
+          <div class="g_id_signin"
+               data-type="standard"
+               data-shape="rectangular"
+               data-theme="outline"
+               data-text="signin_with"
+               data-size="large"
+               data-logo_alignment="left"></div>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:26px">🆕 註冊</h2>
+          <form onsubmit="register(event)">
+            <div class="field">
+              <label for="regName">顯示名稱</label>
+              <input id="regName" type="text" required maxlength="30" placeholder="你的暱稱">
+            </div>
+            <div class="field">
+              <label for="regEmail">Email</label>
+              <input id="regEmail" type="email" required placeholder="you@example.com">
+            </div>
+            <div class="field">
+              <label for="regPassword">密碼（至少 6 碼）</label>
+              <input id="regPassword" type="password" required minlength="6">
+            </div>
+            <button class="btn" type="submit">建立帳號</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> 劫魂工作室 · Demo only</footer>
+
+  <script>
+    const sections=['home','services','auth'];
+    function showSection(id){
+      sections.forEach(s=>{document.getElementById(s).style.display=(s===id)?'block':'none'});
+      document.querySelectorAll('.nav a[data-nav]').forEach(a=>{a.classList.toggle('active',a.dataset.nav===id)});
+      if(id==='home'){ renderWelcomeMsg(); }
+    }
+    window.addEventListener('hashchange',()=>{
+      const id=(location.hash||'#home').slice(1);
+      if(sections.includes(id)) showSection(id); else showSection('home');
+    });
+    document.getElementById('year').textContent=new Date().getFullYear();
+    showSection((location.hash||'#home').slice(1));
+
+    const LS_USERS = "studio_users";
+    const LS_SESSION = "studio_session";
+
+    function readUsers(){ return JSON.parse(localStorage.getItem(LS_USERS) || "[]"); }
+    function writeUsers(list){ localStorage.setItem(LS_USERS, JSON.stringify(list)); }
+
+    function register(ev){
+      ev.preventDefault();
+      const name=document.getElementById("regName").value.trim();
+      const email=document.getElementById("regEmail").value.trim().toLowerCase();
+      const password=document.getElementById("regPassword").value;
+      const users=readUsers();
+      if(users.some(u=>u.email===email)){ alert("Email 已註冊"); return; }
+      users.push({name,email,password});
+      writeUsers(users);
+      alert("註冊成功，請登入！");
+    }
+
+    function login(ev){
+      ev.preventDefault();
+      const email=document.getElementById("loginEmail").value.trim().toLowerCase();
+      const password=document.getElementById("loginPassword").value;
+      const users=readUsers();
+      const user=users.find(u=>u.email===email && u.password===password);
+      if(!user){ alert("帳號或密碼錯誤"); return; }
+      localStorage.setItem(LS_SESSION, JSON.stringify(user));
+      renderAuthArea();
+      alert("登入成功！歡迎 "+user.name);
+      location.hash="#home";
+    }
+
+    function handleGoogleResponse(response){
+      const credential=response.credential;
+      const payload=JSON.parse(atob(credential.split('.')[1]));
+      const user={
+        name:payload.name,
+        email:payload.email,
+        picture:payload.picture
+      };
+      localStorage.setItem(LS_SESSION, JSON.stringify(user));
+      renderAuthArea();
+      alert("Google 登入成功："+user.name);
+      location.hash="#home";
+    }
+
+    function logout(){
+      localStorage.removeItem(LS_SESSION);
+      renderAuthArea();
+      renderWelcomeMsg();
+      alert("已登出");
+      location.hash="#home";
+    }
+
+    function sessionUser(){
+      try{ return JSON.parse(localStorage.getItem(LS_SESSION)); }catch{return null}
+    }
+
+    function renderAuthArea(){
+      const area=document.getElementById('authArea');
+      const u=sessionUser();
+      if(u){
+        area.innerHTML=`<div class=\"userpill\">👤 ${u.name}<button class=\"btn secondary\" onclick=\"logout()\">登出</button></div>`;
+      } else {
+        area.innerHTML=`<a href=\"#auth\" data-nav=\"auth\" class=\"btn\">登入 / 註冊</a>`;
+      }
+    }
+
+    function renderWelcomeMsg(){
+      const u=sessionUser();
+      const msg=document.getElementById('welcomeMsg');
+      if(u){
+        msg.innerHTML=`<div class=\"welcome\">👋 歡迎回來，${u.name}！</div>`;
+      } else {
+        msg.innerHTML="";
+      }
+    }
+
+    renderAuthArea();
+    renderWelcomeMsg();
+  </script>
+</body>
+</html>
