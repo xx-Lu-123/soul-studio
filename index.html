@@ -36,11 +36,9 @@
     .muted{ color:var(--muted) }
     .danger{ color:var(--danger) }
 
-    .grid{ display:grid; gap:16px; grid-template-columns:1fr; }
-    @media(min-width:800px){
-      .grid.cols-3{ grid-template-columns:repeat(3,1fr) }
-      .grid.cols-2{ grid-template-columns:repeat(2,1fr) }
-    }
+    /* 自動排版的卡片網格：會依裝置寬度自動決定每列卡片數 */
+    .grid{ display:grid; gap:16px }
+    .grid.auto{ grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 
     .card{
       background:var(--panel); border-radius:12px; padding:26px; box-shadow:var(--shadow);
@@ -66,6 +64,7 @@
     .inline{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
     .status-badge{ padding:2px 8px; border-radius:999px; background:rgba(255,255,255,.1); font-size:12px }
   </style>
+  <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
@@ -81,13 +80,14 @@
   </header>
 
   <main>
+    <!-- 首頁卡片改自動排版 -->
     <section id="home">
       <div class="panel">
         <h1>🌌 歡迎來到劫魂工作室</h1>
         <p class="muted">我們致力於遊戲開發、網頁設計、Discord 機器人、TRPG 與影音創作，打造多元的互動體驗。</p>
         <div id="welcomeMsg"></div>
       </div>
-      <div class="grid cols-3">
+      <div class="grid auto">
         <div class="card">
           <h2>🏢 工作室介紹</h2>
           <p class="muted">專注於遊戲、互動網站與專案整合，結合創意與工程落地。</p>
@@ -103,6 +103,7 @@
       </div>
     </section>
 
+    <!-- 服務卡片全部改自動排版 -->
     <section id="services" style="display:none">
       <div class="panel">
         <h1>🌟 專業服務項目 🌟</h1>
@@ -110,7 +111,7 @@
         <p class="muted">從 <strong>內容策劃、系統設計、開發到上線</strong>，一站式幫你搞定。</p>
       </div>
 
-      <div class="grid cols-3">
+      <div class="grid auto">
         <div class="card">
           <h2>🧱 Minecraft 服務</h2>
           <ul class="muted">
@@ -136,9 +137,8 @@
             <li>🎮 遊戲系統設計與技術支援</li>
           </ul>
         </div>
-      </div>
 
-      <div class="grid cols-2" style="margin-top:16px">
+        <!-- 第二排原本三張 -> 一樣放在同一個自動網格裡 -->
         <div class="card">
           <h2>💎 Nitro 代購</h2>
           <ul class="muted">
@@ -155,6 +155,20 @@
             <li>💲 價格實惠</li>
           </ul>
         </div>
+        <div class="card">
+          <h2>🧧 特殊代購</h2>
+          <ul class="muted">
+            <li>1. Roblox 幣購買</li>
+            <li>2. 蝦皮代購</li>
+            <li>3. 貝殼幣代購</li>
+            <li>4. MyCard 序號</li>
+            <li>5. 抖音幣</li>
+            <li>6. 快手儲值</li>
+            <li>7. Roblox 訂閱</li>
+            <li>8. 其他跨境代購</li>
+          </ul>
+          <p class="muted" style="margin-top:8px">詳談 Discord，並支持物流貨運。</p>
+        </div>
       </div>
 
       <div class="panel" style="margin-top:20px">
@@ -164,13 +178,14 @@
       </div>
     </section>
 
+    <!-- 訂單/案件（維持不動） -->
     <section id="order" style="display:none">
       <div class="panel">
         <h1>📝 訂單 / 案件洽詢</h1>
         <p class="muted">填寫下方表單，提交後會送交管理員審核（可選擇同步通知 Discord 或 Email）。</p>
       </div>
 
-      <div class="grid cols-2">
+      <div class="grid auto">
         <div class="card">
           <h2>📮 提交表單</h2>
           <form onsubmit="submitOrder(event)">
@@ -199,7 +214,6 @@
               <textarea id="orderDesc" placeholder="請描述你的需求、預算或目標...（可貼上連結）" required></textarea>
             </div>
 
-            <!-- 這裡改：移除（固定 120 新台幣）字樣 -->
             <h3>📜 付款合約</h3>
             <div id="contractBox" class="contract-box"></div>
 
@@ -231,17 +245,18 @@
       </div>
     </section>
 
+    <!-- 管理員後台 -->
     <section id="admin" style="display:none">
       <div class="panel">
         <h1>🛡️ 管理員後台</h1>
 
-        <div class="grid cols-2">
+        <div class="grid auto">
           <div class="card">
             <h2>👥 使用者清單</h2>
             <div class="inline" style="gap:8px;margin:8px 0">
               <button class="btn" onclick="exportUsers()">📤 匯出 JSON</button>
               <input type="file" id="importFile" style="display:none" accept="application/json" onchange="importUsers(event)">
-              <button class="btn secondary" onclick="document.getElementById('importFile').click()">📥 匯入 JSON</button>
+              <button class="btn secondary" onclick="document.getElementById('importFile').click()">📥 納入 JSON</button>
             </div>
             <table id="userTable">
               <thead>
@@ -283,8 +298,9 @@
       </div>
     </section>
 
+    <!-- 登入 / 註冊 -->
     <section id="auth" style="display:none">
-      <div class="grid cols-2">
+      <div class="grid auto">
         <div class="card">
           <h2 style="font-size:26px">🔒 登入</h2>
           <form onsubmit="login(event)">
@@ -459,7 +475,6 @@
       } else { msg.innerHTML=""; }
     }
 
-    // 這裡改：移除固定金額，改為「以雙方確認金額」
     function buildContractText(name, email){
       const who = name || email || "(填入客戶名稱或email)";
       return `付款合約
@@ -672,6 +687,7 @@ ${order.contract}
       notifyChannels(o); alert("已嘗試重新通知（Discord / Email）");
     }
 
+    // 卡片出場動畫
     let cardObserver=null;
     function ensureObserver(){
       if(cardObserver) return cardObserver;
@@ -690,6 +706,8 @@ ${order.contract}
       root.querySelectorAll(".card").forEach(c=>{ if(!c.classList.contains("show")) obs.observe(c); });
     }
 
+    // 初始化
+    document.getElementById('year').textContent=new Date().getFullYear();
     renderAuthArea();
     renderWelcomeMsg();
     showSection((location.hash||'#home').slice(1));
