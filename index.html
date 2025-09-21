@@ -9,44 +9,72 @@
       --bg:#070914; --bg2:#0b1022; --panel:#0e1630; --text:#e6f2ff; --muted:#9fb3c8;
       --accent:#00ffe7; --accent-soft:rgba(0,255,231,.18);
       --card:#121a39; --shadow:0 10px 30px rgba(0,0,0,.45); --radius:16px;
+      --danger:#ffb3c1;
     }
     *{box-sizing:border-box}
     html,body{height:100%; margin:0;}
-    body{display:flex; flex-direction:column; justify-content:flex-start; min-height:100vh; color:var(--text); font-family:"Noto Sans TC", sans-serif; background:radial-gradient(circle at 50% 30%, #1a2456 0%, #0a0f24 60%, #060814 100%);}
-    header{ position:relative; top:0; background:rgba(10,15,30,.7); backdrop-filter:blur(10px); z-index:10; }
+    body{
+      display:flex; flex-direction:column; min-height:100vh;
+      color:var(--text); font-family:"Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background:radial-gradient(circle at 50% 30%, #1a2456 0%, #0a0f24 60%, #060814 100%);
+    }
+    header{ position:sticky; top:0; background:rgba(10,15,30,.7); backdrop-filter:blur(10px); z-index:10; }
     .nav{ max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:16px; padding:12px 16px }
     .brand{ font-weight:800; letter-spacing:.5px }
     .nav a{ color:var(--text); text-decoration:none; padding:10px 12px; border-radius:12px }
     .nav a.active, .nav a:hover{ background:rgba(0,255,231,.08); box-shadow:0 0 18px var(--accent-soft) }
     .spacer{ flex:1 }
-    .btn{ appearance:none; border:0; padding:12px 18px; border-radius:12px; cursor:pointer; font-weight:700; background:linear-gradient(135deg, #67e8f9, #a7f3d0); color:#031018; font-size:16px }
+    .btn{ appearance:none; border:0; padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:700; background:linear-gradient(135deg, #67e8f9, #a7f3d0); color:#031018; font-size:14px }
     .btn.secondary{ background:rgba(255,255,255,.06); color:var(--text); border:1px solid rgba(255,255,255,.12) }
+    .btn.delete{ background:#e74c3c; color:#fff }
+    .btn.reset{ background:#f39c12; color:#fff }
+    .btn.outline{ background:transparent; border:1px solid rgba(255,255,255,.25); color:var(--text) }
     main{ flex:1; max-width:1100px; margin:40px auto; padding:0 16px }
     section{ margin-bottom:24px }
     .panel{ background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); margin-bottom:20px }
     h1,h2{ margin-top:0 }
     .muted{ color:var(--muted) }
-    .grid{ display:grid; gap:16px }
-    @media(min-width:800px){ .grid.cols-3{ grid-template-columns:repeat(3,1fr) } .grid.cols-2{ grid-template-columns:repeat(2,1fr) } }
-    .card{ background:var(--panel); border-radius:12px; padding:30px; box-shadow:var(--shadow) }
+    .danger{ color:var(--danger) }
+
+    .grid{ display:grid; gap:16px; grid-template-columns:1fr; }
+    @media(min-width:800px){
+      .grid.cols-3{ grid-template-columns:repeat(3,1fr) }
+      .grid.cols-2{ grid-template-columns:repeat(2,1fr) }
+    }
+
+    .card{
+      background:var(--panel); border-radius:12px; padding:26px; box-shadow:var(--shadow);
+      opacity:0; transform:translateY(40px); transition:all .8s ease;
+    }
+    .card.show{ opacity:1; transform:translateY(0); }
+
     footer{ text-align:center; padding:20px; color:var(--muted); margin-top:auto }
-    .danger{ color:#ffb3c1 }
-    .field{ display:grid; gap:6px; margin-bottom:16px }
+    .field{ display:grid; gap:6px; margin-bottom:14px }
     label{ font-size:15px; color:var(--muted) }
-    input{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:var(--text); border-radius:12px; padding:14px; outline:none; font-size:16px }
-    .userpill{ display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); padding:6px 12px; border-radius:20px }
-    .welcome{ font-size:28px; font-weight:700; color:#7fffd4; margin:20px 0; text-align:center; }
+    input, textarea, select{
+      width:100%; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+      color:var(--text); border-radius:12px; padding:12px; outline:none; font-size:15px
+    }
+    textarea{ min-height:120px; resize:vertical }
+    .userpill{ display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); padding:6px 10px; border-radius:20px }
+    .welcome{ font-size:24px; font-weight:700; color:#7fffd4; margin:18px 0; text-align:center; }
+    table{ width:100%; border-collapse:collapse; margin-top:10px }
+    th,td{ border:1px solid rgba(255,255,255,.15); padding:8px; font-size:14px; text-align:left }
+    th{ background:rgba(255,255,255,.08); }
+    img.avatar{ width:26px; height:26px; border-radius:50%; vertical-align:middle; object-fit:cover }
+    .contract-box{ background:rgba(255,255,255,.05); border:1px dashed rgba(255,255,255,.2); padding:14px; border-radius:12px; white-space:pre-wrap; line-height:1.6 }
+    .inline{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+    .status-badge{ padding:2px 8px; border-radius:999px; background:rgba(255,255,255,.1); font-size:12px }
   </style>
-  <!-- Google Identity Services -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <header>
-    <nav class="nav">
+    <nav class="nav" id="navBar">
       <div class="brand">劫魂工作室</div>
       <a href="#home" data-nav="home">🏠 主頁</a>
       <a href="#services" data-nav="services">🛠️ 工作室服務</a>
-      <a href="https://discord.gg/T8eA2WWhjW" target="_blank">💬 Discord</a>
+      <a href="#order" data-nav="order">📝 訂單/案件</a>
       <div class="spacer"></div>
       <div id="authArea"></div>
     </nav>
@@ -56,22 +84,21 @@
     <section id="home">
       <div class="panel">
         <h1>🌌 歡迎來到劫魂工作室</h1>
-        <p class="muted">我們致力於遊戲開發、網頁設計、discord製作等等服務，打造多元的互動體驗。</p>
+        <p class="muted">我們致力於遊戲開發、網頁設計、Discord 機器人、TRPG 與影音創作，打造多元的互動體驗。</p>
         <div id="welcomeMsg"></div>
       </div>
-
       <div class="grid cols-3">
         <div class="card">
           <h2>🏢 工作室介紹</h2>
-          <p class="muted">劫魂工作室專注於遊戲、互動網站與各式各樣的專案，融合程式與科技。</p>
+          <p class="muted">專注於遊戲、互動網站與專案整合，結合創意與工程落地。</p>
         </div>
         <div class="card">
-          <h2>🛠️ 工作室服務</h2>
-          <p class="muted">提供遊戲開發、互動網站設計、各種訂製服務。</p>
+          <h2>🛠️ 我們能幫你</h2>
+          <p class="muted">網站建置、遊戲系統、Discord Bot、資料處理、自動化流程。</p>
         </div>
         <div class="card">
-          <h2>📢 工作室動態</h2>
-          <p class="muted">近期專案：Godot 遊戲、互動網頁、專案策畫製作。</p>
+          <h2>📢 近期動態</h2>
+          <p class="muted">Godot 遊戲、前端網站、社群機器人與 TRPG 故事模組。</p>
         </div>
       </div>
     </section>
@@ -79,55 +106,191 @@
     <section id="services" style="display:none">
       <div class="panel">
         <h1>🌟 專業服務項目 🌟</h1>
-        <p class="muted">🎮 Minecraft | 🎲 TRPG | 🎬 遊戲 & 創作全方位支援</p>
-        <p class="muted">想讓你的作品更專業、更完整？<br>
-        我能為你提供 <strong>從遊戲建構、內容創作，到影片呈現</strong> 的全方位協助！</p>
+        <p class="muted">🎮 Minecraft | 🎲 TRPG | 🤖 Discord | 🌐 Web | 🎬 影音</p>
+        <p class="muted">從 <strong>內容策劃、系統設計、開發到上線</strong>，一站式幫你搞定。</p>
       </div>
 
       <div class="grid cols-3">
         <div class="card">
           <h2>🧱 Minecraft 服務</h2>
           <ul class="muted">
-            <li>✨ 專屬建築設計：打造獨一無二的伺服器建築風格</li>
-            <li>🔧 模組安裝 / 配置：安裝、優化、除錯</li>
-            <li>🎥 Replay Mod 剪輯：高質感回放與宣傳影片</li>
+            <li>✨ 專屬建築設計、風格統一</li>
+            <li>🔧 模組安裝 / 配置 / 除錯</li>
+            <li>🎥 Replay Mod 高質感剪輯</li>
           </ul>
         </div>
-
         <div class="card">
           <h2>🎲 TRPG 服務</h2>
           <ul class="muted">
-            <li>🌍 世界觀架構：協助構建完整遊戲世界</li>
-            <li>🩹 規則與劇情漏洞修補：體驗更流暢</li>
-            <li>📑 管理支援：角色資料、流程管理</li>
-            <li>⚡ 快速教學：帶領新手快速上手 TRPG</li>
+            <li>🌍 世界觀架構與模組化素材</li>
+            <li>🩹 規則 / 劇情漏洞修補</li>
+            <li>📑 角色資料與流程管理</li>
+            <li>⚡ 新手快速上手教學</li>
           </ul>
         </div>
-
         <div class="card">
           <h2>💻 其他創作服務</h2>
           <ul class="muted">
-            <li>🎬 視頻剪輯：遊戲影片、宣傳片、vlog</li>
-            <li>🌐 網站製作：HTML 前後端、設計與功能</li>
-            <li>🎮 遊戲製作支援：系統規劃與開發建議</li>
+            <li>🎬 影片剪輯：實況、宣傳片、Vlog</li>
+            <li>🌐 網站製作：前後端整合</li>
+            <li>🎮 遊戲系統設計與技術支援</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid cols-2" style="margin-top:16px">
+        <div class="card">
+          <h2>💎 Nitro 代購</h2>
+          <ul class="muted">
+            <li>✅ 合法授權、安全代購</li>
+            <li>💲 便宜支付</li>
+            <li>⚡ 快速回覆、即時交付</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>🤖 工作室機器人</h2>
+          <ul class="muted">
+            <li>🎯 豐富你的伺服器功能</li>
+            <li>🤝 方便加入、快速部署</li>
+            <li>💲 價格實惠</li>
           </ul>
         </div>
       </div>
 
       <div class="panel" style="margin-top:20px">
-        <p class="muted">💡 不論是 Minecraft、TRPG，還是遊戲與網站創作，我都能成為你的最佳幫手！</p>
+        <p class="muted">💡 不論是 Minecraft、TRPG，還是網站與機器人，我們都能成為你的最佳幫手！</p>
         <p class="muted">📩 歡迎聯繫合作，一起實現你的創意 🎉</p>
         <p class="muted danger">！價格實惠，歡迎洽談！</p>
       </div>
     </section>
+
+    <section id="order" style="display:none">
+      <div class="panel">
+        <h1>📝 訂單 / 案件洽詢</h1>
+        <p class="muted">填寫下方表單，提交後會送交管理員審核（可選擇同步通知 Discord 或 Email）。</p>
+      </div>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h2>📮 提交表單</h2>
+          <form onsubmit="submitOrder(event)">
+            <div class="field">
+              <label>你的姓名（或暱稱）</label>
+              <input id="orderName" placeholder="例：小明" required>
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input id="orderEmail" type="email" placeholder="you@example.com" required>
+            </div>
+            <div class="field">
+              <label>案件類型</label>
+              <select id="orderType" required>
+                <option value="">請選擇</option>
+                <option>網站製作</option>
+                <option>Discord 機器人</option>
+                <option>Minecraft 服務</option>
+                <option>TRPG 服務</option>
+                <option>影片剪輯</option>
+                <option>其他</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>需求描述</label>
+              <textarea id="orderDesc" placeholder="請描述你的需求、預算或目標...（可貼上連結）" required></textarea>
+            </div>
+
+            <!-- 這裡改：移除（固定 120 新台幣）字樣 -->
+            <h3>📜 付款合約</h3>
+            <div id="contractBox" class="contract-box"></div>
+
+            <div class="field inline">
+              <input id="agreeCheck" type="checkbox" required>
+              <label for="agreeCheck">我已閱讀並遵守付款合約</label>
+            </div>
+            <div class="field">
+              <label>請輸入「我同意」以確認</label>
+              <input id="agreeText" placeholder="我同意" required>
+            </div>
+            <div class="field">
+              <label>真實姓名（必要）</label>
+              <input id="realName" placeholder="請輸入你的真實姓名" required>
+            </div>
+
+            <button class="btn" type="submit">提交訂單</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>ℹ️ 提醒</h2>
+          <ul class="muted">
+            <li>提交後進入「待審核」狀態，管理員確認後會更改狀態。</li>
+            <li>若管理員設定了 Discord Webhook 或 Email，會即時通知。</li>
+            <li>請務必輸入真實姓名、勾選同意並輸入「我同意」，否則無法送出。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="admin" style="display:none">
+      <div class="panel">
+        <h1>🛡️ 管理員後台</h1>
+
+        <div class="grid cols-2">
+          <div class="card">
+            <h2>👥 使用者清單</h2>
+            <div class="inline" style="gap:8px;margin:8px 0">
+              <button class="btn" onclick="exportUsers()">📤 匯出 JSON</button>
+              <input type="file" id="importFile" style="display:none" accept="application/json" onchange="importUsers(event)">
+              <button class="btn secondary" onclick="document.getElementById('importFile').click()">📥 匯入 JSON</button>
+            </div>
+            <table id="userTable">
+              <thead>
+                <tr><th>暱稱</th><th>帳號/Email</th><th>註冊時間</th><th>是否管理員</th><th>操作</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <h2>📣 通知設定</h2>
+            <div class="field">
+              <label>Discord Webhook URL（選填）</label>
+              <input id="setWebhook" placeholder="https://discord.com/api/webhooks/...">
+            </div>
+            <div class="field">
+              <label>通知 Email（選填）</label>
+              <input id="setEmail" type="email" placeholder="your-notify@example.com">
+            </div>
+            <div class="inline">
+              <button class="btn" onclick="saveSettings()">💾 儲存設定</button>
+              <span class="muted">（保存在本機）</span>
+            </div>
+            <p class="muted" style="margin-top:10px">⚠️ 前端填入 Webhook 仍屬公開環境，建議僅在內部或測試使用；正式上線請改為後端轉發。</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h2>🗂️ 訂單審核</h2>
+          <table id="orderTable">
+            <thead>
+              <tr>
+                <th>ID</th><th>客戶</th><th>Email</th><th>類型</th><th>建立時間</th><th>狀態</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
     <section id="auth" style="display:none">
       <div class="grid cols-2">
         <div class="card">
           <h2 style="font-size:26px">🔒 登入</h2>
           <form onsubmit="login(event)">
             <div class="field">
-              <label for="loginEmail">Email</label>
-              <input id="loginEmail" type="email" required placeholder="you@example.com">
+              <label for="loginEmail">帳號 / Email</label>
+              <input id="loginEmail" type="text" required placeholder="you@example.com 或 jason">
             </div>
             <div class="field">
               <label for="loginPassword">密碼</label>
@@ -135,7 +298,9 @@
             </div>
             <button class="btn" type="submit">登入</button>
           </form>
+
           <hr style="margin:20px 0; border:1px solid rgba(255,255,255,.1)">
+
           <div id="g_id_onload"
                data-client_id="77113728575-ca1s75fj6ocok3vhs7toph3dafc2l5v4.apps.googleusercontent.com"
                data-context="signin"
@@ -143,7 +308,6 @@
                data-callback="handleGoogleResponse"
                data-auto_select="true"
                data-itp_support="true"></div>
-
           <div class="g_id_signin"
                data-type="standard"
                data-shape="rectangular"
@@ -178,24 +342,34 @@
   <footer>© <span id="year"></span> 劫魂工作室 · Demo only</footer>
 
   <script>
-    const sections=['home','services','auth'];
-    function showSection(id){
-      sections.forEach(s=>{document.getElementById(s).style.display=(s===id)?'block':'none'});
-      document.querySelectorAll('.nav a[data-nav]').forEach(a=>{a.classList.toggle('active',a.dataset.nav===id)});
-      if(id==='home'){ renderWelcomeMsg(); }
-    }
-    window.addEventListener('hashchange',()=>{
-      const id=(location.hash||'#home').slice(1);
-      if(sections.includes(id)) showSection(id); else showSection('home');
-    });
-    document.getElementById('year').textContent=new Date().getFullYear();
-    showSection((location.hash||'#home').slice(1));
+    const LS_USERS="studio_users", LS_SESSION="studio_session", LS_ORDERS="studio_orders", LS_SETTINGS="studio_settings";
 
-    const LS_USERS = "studio_users";
-    const LS_SESSION = "studio_session";
+    const sections=['home','services','order','auth','admin'];
+    function showSection(id){
+      if(id==='admin'){
+        const u=sessionUser();
+        if(!u||!u.isAdmin){ alert("需要管理員權限"); id='home'; location.hash="#home"; }
+      }
+      sections.forEach(s=>{
+        const el=document.getElementById(s);
+        if(el) el.style.display=(s===id)?'block':'none';
+      });
+      document.querySelectorAll('.nav a[data-nav]').forEach(a=>a.classList.toggle('active',a.dataset.nav===id));
+      if(id==='home'){ renderWelcomeMsg(); }
+      if(id==='admin'){ renderUserTable(); renderOrderTable(); loadSettingsToUI(); }
+      if(id==='order'){ renderContractPreview(); }
+      attachObserverToCards(document.getElementById(id));
+    }
+    window.addEventListener('hashchange',()=>showSection((location.hash||'#home').slice(1)));
+    document.getElementById('year').textContent=new Date().getFullYear();
 
     function readUsers(){ return JSON.parse(localStorage.getItem(LS_USERS) || "[]"); }
     function writeUsers(list){ localStorage.setItem(LS_USERS, JSON.stringify(list)); }
+    function sessionUser(){ try{ return JSON.parse(localStorage.getItem(LS_SESSION)); }catch{return null} }
+    function readOrders(){ return JSON.parse(localStorage.getItem(LS_ORDERS) || "[]"); }
+    function writeOrders(list){ localStorage.setItem(LS_ORDERS, JSON.stringify(list)); }
+    function readSettings(){ return JSON.parse(localStorage.getItem(LS_SETTINGS) || '{"webhook":"","email":""}'); }
+    function writeSettings(obj){ localStorage.setItem(LS_SETTINGS, JSON.stringify(obj)); }
 
     function register(ev){
       ev.preventDefault();
@@ -204,57 +378,75 @@
       const password=document.getElementById("regPassword").value;
       const users=readUsers();
       if(users.some(u=>u.email===email)){ alert("Email 已註冊"); return; }
-      users.push({name,email,password});
+      users.push({name,email,password,createdAt:new Date().toISOString()});
       writeUsers(users);
       alert("註冊成功，請登入！");
+      location.hash="#auth";
     }
 
     function login(ev){
       ev.preventDefault();
-      const email=document.getElementById("loginEmail").value.trim().toLowerCase();
+      const emailInput=document.getElementById("loginEmail").value.trim();
       const password=document.getElementById("loginPassword").value;
+      if(emailInput.toLowerCase()==="jason" && password==="0000"){
+        const adminUser={ name:"管理員 Jason", email:"jason", isAdmin:true };
+        localStorage.setItem(LS_SESSION, JSON.stringify(adminUser));
+        renderAuthArea(); renderWelcomeMsg();
+        alert("登入成功！歡迎 管理員 Jason");
+        location.hash="#admin"; return;
+      }
       const users=readUsers();
+      const email=emailInput.toLowerCase();
       const user=users.find(u=>u.email===email && u.password===password);
       if(!user){ alert("帳號或密碼錯誤"); return; }
-      localStorage.setItem(LS_SESSION, JSON.stringify(user));
-      renderAuthArea();
-      alert("登入成功！歡迎 "+user.name);
+      const session={ name:user.name||email, email:email, isAdmin:false, picture:user.picture||null };
+      localStorage.setItem(LS_SESSION, JSON.stringify(session));
+      renderAuthArea(); renderWelcomeMsg();
+      alert("登入成功！歡迎 "+session.name);
       location.hash="#home";
     }
 
     function handleGoogleResponse(response){
-      const credential=response.credential;
-      const payload=JSON.parse(atob(credential.split('.')[1]));
-      const user={
-        name:payload.name,
-        email:payload.email,
-        picture:payload.picture
-      };
-      localStorage.setItem(LS_SESSION, JSON.stringify(user));
-      renderAuthArea();
-      alert("Google 登入成功："+user.name);
-      location.hash="#home";
+      try{
+        const payload=JSON.parse(atob(response.credential.split('.')[1]));
+        const baseUser={ name:payload.name, email:(payload.email||"").toLowerCase(), picture:payload.picture||null, password:null };
+        let users=readUsers();
+        const idx=users.findIndex(u=>u.email===baseUser.email);
+        if(idx===-1){ users.push({...baseUser, createdAt:new Date().toISOString()}); }
+        else{
+          if(!users[idx].createdAt) users[idx].createdAt=new Date().toISOString();
+          if(!users[idx].picture && baseUser.picture) users[idx].picture=baseUser.picture;
+        }
+        writeUsers(users);
+        localStorage.setItem(LS_SESSION, JSON.stringify({...baseUser, isAdmin:false}));
+        renderAuthArea(); renderWelcomeMsg();
+        alert("Google 登入成功："+baseUser.name);
+        location.hash="#home";
+      }catch(e){ console.error(e); alert("Google 登入解析失敗"); }
     }
 
     function logout(){
       localStorage.removeItem(LS_SESSION);
-      renderAuthArea();
-      renderWelcomeMsg();
+      renderAuthArea(); renderWelcomeMsg();
       alert("已登出");
       location.hash="#home";
     }
 
-    function sessionUser(){
-      try{ return JSON.parse(localStorage.getItem(LS_SESSION)); }catch{return null}
-    }
-
     function renderAuthArea(){
       const area=document.getElementById('authArea');
+      const nav=document.getElementById('navBar');
       const u=sessionUser();
+      nav.querySelectorAll("a[data-nav='admin']").forEach(el=>el.remove());
       if(u){
-        area.innerHTML=`<div class=\"userpill\">👤 ${u.name}<button class=\"btn secondary\" onclick=\"logout()\">登出</button></div>`;
+        if(u.isAdmin){
+          const adminLink=document.createElement("a");
+          adminLink.href="#admin"; adminLink.textContent="🛡️ 管理員"; adminLink.setAttribute("data-nav","admin");
+          nav.insertBefore(adminLink, nav.querySelector(".spacer"));
+        }
+        const avatar=u.picture?`<img src="${u.picture}" class="avatar" alt="avatar"> `:"";
+        area.innerHTML=`<div class="userpill">${avatar}${u.name || u.email}<button class="btn secondary" style="margin-left:8px" onclick="logout()">登出</button></div>`;
       } else {
-        area.innerHTML=`<a href=\"#auth\" data-nav=\"auth\" class=\"btn\">登入 / 註冊</a>`;
+        area.innerHTML=`<a href="#auth" data-nav="auth" class="btn">登入 / 註冊</a>`;
       }
     }
 
@@ -262,14 +454,246 @@
       const u=sessionUser();
       const msg=document.getElementById('welcomeMsg');
       if(u){
-        msg.innerHTML=`<div class=\"welcome\">👋 歡迎回來，${u.name}！</div>`;
-      } else {
-        msg.innerHTML="";
+        const avatar=u.picture?`<img src="${u.picture}" class="avatar" alt="avatar"> `:"";
+        msg.innerHTML=`<div class="welcome">👋 歡迎回來，${avatar}${u.name || u.email}！</div>`;
+      } else { msg.innerHTML=""; }
+    }
+
+    // 這裡改：移除固定金額，改為「以雙方確認金額」
+    function buildContractText(name, email){
+      const who = name || email || "(填入客戶名稱或email)";
+      return `付款合約
+本工作室提供銀行帳戶，由 ${who} 進行轉帳或匯款支付費用（以雙方書面或訊息確認之金額為準），並願意遵守下面合約內容:
+
+1.不洩漏任何銀行帳戶的資訊，如若洩漏，本工作室則將提起訴訟程序
+
+2.不通過本工作室進行任何違法事情
+
+3.僅依雙方確認之金額（不含手續費）進行匯款或轉帳；除非另行簽訂加值合約，否則不再進行任何額外匯款或轉帳
+
+4.本工作室不得洩漏任何的客戶資訊
+
+5.本工作室帳戶如若被他人匯款或轉款、甚至於其他非法用途， ${who} 客戶將確保不是自身所洩漏帳戶資料 
+
+如若願意簽訂合約，請幫我在本訊息回復✅ ，並訊息回復 {我同意}，而本工作室將進行截圖+以機器人加密給予帳戶訊息，請於24小時至48小時內，完成轉帳或匯款，如若無，也不開放轉帳或匯款，請幫我重新簽訂合約`;
+    }
+    function renderContractPreview(){
+      const name = (document.getElementById('orderName')||{}).value || "";
+      const email= (document.getElementById('orderEmail')||{}).value || "";
+      const box=document.getElementById('contractBox');
+      if(box) box.textContent = buildContractText(name,email);
+    }
+    ['orderName','orderEmail'].forEach(id=>{
+      document.addEventListener('input',e=>{
+        if(e.target && e.target.id===id) renderContractPreview();
+      });
+    });
+
+    function submitOrder(ev){
+      ev.preventDefault();
+      const name=document.getElementById('orderName').value.trim();
+      const email=document.getElementById('orderEmail').value.trim();
+      const type=document.getElementById('orderType').value;
+      const desc=document.getElementById('orderDesc').value.trim();
+      const agreeCheck=document.getElementById('agreeCheck').checked;
+      const agreeText=document.getElementById('agreeText').value.trim();
+      const realName=document.getElementById('realName').value.trim();
+
+      if(!agreeCheck){ alert("請勾選同意付款合約"); return; }
+      if(agreeText!=="我同意"){ alert('請在確認欄輸入「我同意」'); return; }
+      if(!realName){ alert("請填寫真實姓名"); return; }
+
+      const id="O"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+      const order={
+        id,name,email,type,desc,
+        contract:buildContractText(name||email,email),
+        realName,status:"待審核",
+        createdAt:new Date().toISOString()
+      };
+      const orders=readOrders();
+      orders.unshift(order);
+      writeOrders(orders);
+      notifyChannels(order);
+      alert("已提交！訂單編號："+id+"（狀態：待審核）");
+      ev.target.reset();
+      renderContractPreview();
+    }
+
+    async function notifyChannels(order){
+      const set=readSettings();
+      if(set.webhook){
+        try{
+          const content=`🆕 新訂單 | ${order.id}
+客戶：${order.name}（${order.email}）
+類型：${order.type}
+狀態：${order.status}
+時間：${new Date(order.createdAt).toLocaleString()}
+——
+需求：
+${order.desc}`;
+          await fetch(set.webhook,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({content})});
+        }catch(e){ console.warn("Webhook 通知失敗",e); }
       }
+      if(set.email){
+        const subject=encodeURIComponent(`新訂單 ${order.id} - ${order.type}`);
+        const body=encodeURIComponent(
+`新訂單
+編號：${order.id}
+客戶：${order.name}（${order.email}）
+類型：${order.type}
+狀態：${order.status}
+時間：${new Date(order.createdAt).toLocaleString()}
+
+需求：
+${order.desc}
+
+合約：
+${order.contract}
+`);
+        const link=`mailto:${encodeURIComponent(set.email)}?subject=${subject}&body=${body}`;
+        window.open(link,"_blank");
+      }
+    }
+
+    function saveSettings(){
+      const webhook=document.getElementById('setWebhook').value.trim();
+      const email=document.getElementById('setEmail').value.trim();
+      writeSettings({webhook,email});
+      alert("已儲存通知設定");
+    }
+    function loadSettingsToUI(){
+      const s=readSettings();
+      document.getElementById('setWebhook').value=s.webhook||"";
+      document.getElementById('setEmail').value=s.email||"";
+    }
+
+    function renderUserTable(){
+      const tbody=document.querySelector("#userTable tbody");
+      if(!tbody) return;
+      tbody.innerHTML="";
+      tbody.innerHTML+=`<tr><td>管理員 Jason</td><td>jason</td><td>-</td><td>✅</td><td>🚫</td></tr>`;
+      const users=readUsers();
+      users.forEach(u=>{
+        const name=u.name||"-";
+        const email=u.email||"-";
+        const time=u.createdAt?new Date(u.createdAt).toLocaleString():"-";
+        tbody.innerHTML+=`
+          <tr>
+            <td>${name}</td>
+            <td>${email}</td>
+            <td>${time}</td>
+            <td>❌</td>
+            <td>
+              <button class="btn" style="background:#3b82f6;color:#fff" onclick="viewUser('${email}')">👁️ 檢視</button>
+              <button class="btn reset" onclick="resetPassword('${email}')">✏️ 重設</button>
+              <button class="btn delete" onclick="deleteUser('${email}')">🗑️ 刪除</button>
+            </td>
+          </tr>`;
+      });
+    }
+    function deleteUser(email){
+      if(!confirm("確定要刪除使用者 "+email+" ?")) return;
+      let users=readUsers();
+      users=users.filter(u=>u.email!==email);
+      writeUsers(users);
+      renderUserTable();
+    }
+    function resetPassword(email){
+      const newPass=prompt("請輸入新密碼：",""); if(newPass===null) return;
+      if(newPass.trim()===""){ alert("密碼不可為空"); return; }
+      let users=readUsers(), changed=false;
+      users=users.map(u=>{ if(u.email===email){ u.password=newPass; changed=true; } return u; });
+      if(!changed){ alert("找不到該使用者"); return; }
+      writeUsers(users); alert("已成功重設 "+email+" 的密碼！"); renderUserTable();
+    }
+    function viewUser(email){
+      const u=readUsers().find(x=>x.email===email);
+      if(!u){ alert("找不到使用者"); return; }
+      alert(`暱稱：${u.name||"-"}\nEmail：${u.email}\n密碼：${u.password??"(Google 登入/未設定)"}\n註冊時間：${u.createdAt?new Date(u.createdAt).toLocaleString():"-"}`);
+    }
+    function exportUsers(){
+      const data=JSON.stringify(readUsers(),null,2);
+      const blob=new Blob([data],{type:"application/json"});
+      const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="users.json"; a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    function importUsers(ev){
+      const file=ev.target.files[0]; if(!file) return;
+      const r=new FileReader();
+      r.onload=e=>{ try{
+          const arr=JSON.parse(e.target.result);
+          if(!Array.isArray(arr)) throw new Error("格式需為陣列");
+          writeUsers(arr); renderUserTable(); alert("匯入成功");
+        }catch(err){ console.error(err); alert("匯入失敗：JSON 格式不正確"); } };
+      r.readAsText(file); ev.target.value="";
+    }
+
+    function renderOrderTable(){
+      const tbody=document.querySelector("#orderTable tbody");
+      if(!tbody) return;
+      const orders=readOrders(); tbody.innerHTML="";
+      orders.forEach(o=>{
+        const time=new Date(o.createdAt).toLocaleString();
+        const selId=`sel_${o.id}`;
+        tbody.innerHTML+=`
+          <tr>
+            <td>${o.id}</td>
+            <td>${o.name} <span class="status-badge">${o.realName||"-"}</span></td>
+            <td>${o.email}</td>
+            <td>${o.type}</td>
+            <td>${time}</td>
+            <td>
+              <select id="${selId}" onchange="updateOrderStatus('${o.id}', this.value)">
+                ${["待審核","已接受","已拒絕","已付款","已完成"].map(s=>`<option ${o.status===s?'selected':''}>${s}</option>`).join("")}
+              </select>
+            </td>
+            <td>
+              <button class="btn outline" onclick="viewOrder('${o.id}')">🔎</button>
+              <button class="btn" onclick="resendOrder('${o.id}')">📤 通知</button>
+              <button class="btn delete" onclick="deleteOrder('${o.id}')">🗑️</button>
+            </td>
+          </tr>`;
+      });
+    }
+    function updateOrderStatus(id,status){
+      let list=readOrders(); const i=list.findIndex(o=>o.id===id); if(i===-1) return;
+      list[i].status=status; writeOrders(list); alert(`訂單 ${id} 狀態已更新為：${status}`);
+    }
+    function deleteOrder(id){
+      if(!confirm("確定刪除訂單 "+id+" ?")) return;
+      writeOrders(readOrders().filter(o=>o.id!==id)); renderOrderTable();
+    }
+    function viewOrder(id){
+      const o=readOrders().find(x=>x.id===id); if(!o) return alert("找不到訂單");
+      alert(`訂單編號：${o.id}\n客戶：${o.name}（${o.email}）\n真實姓名：${o.realName}\n類型：${o.type}\n狀態：${o.status}\n建立時間：${new Date(o.createdAt).toLocaleString()}\n\n需求：\n${o.desc}\n\n合約：\n${o.contract}`);
+    }
+    function resendOrder(id){
+      const o=readOrders().find(x=>x.id===id); if(!o) return alert("找不到訂單");
+      notifyChannels(o); alert("已嘗試重新通知（Discord / Email）");
+    }
+
+    let cardObserver=null;
+    function ensureObserver(){
+      if(cardObserver) return cardObserver;
+      cardObserver=new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add("show");
+            cardObserver.unobserve(entry.target);
+          }
+        });
+      },{threshold:0.2}); return cardObserver;
+    }
+    function attachObserverToCards(root){
+      if(!root) return;
+      const obs=ensureObserver();
+      root.querySelectorAll(".card").forEach(c=>{ if(!c.classList.contains("show")) obs.observe(c); });
     }
 
     renderAuthArea();
     renderWelcomeMsg();
+    showSection((location.hash||'#home').slice(1));
+    attachObserverToCards(document.getElementById('home'));
   </script>
 </body>
 </html>
