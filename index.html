@@ -35,8 +35,6 @@
     h1,h2{ margin-top:0 }
     .muted{ color:var(--muted) }
     .danger{ color:var(--danger) }
-
-    /* 自動排版的卡片網格：會依裝置寬度自動決定每列卡片數 */
     .grid{ display:grid; gap:16px }
     .grid.auto{ grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 
@@ -80,7 +78,6 @@
   </header>
 
   <main>
-    <!-- 首頁卡片改自動排版 -->
     <section id="home">
       <div class="panel">
         <h1>🌌 歡迎來到劫魂工作室</h1>
@@ -102,8 +99,6 @@
         </div>
       </div>
     </section>
-
-    <!-- 服務卡片全部改自動排版 -->
     <section id="services" style="display:none">
       <div class="panel">
         <h1>🌟 專業服務項目 🌟</h1>
@@ -137,8 +132,6 @@
             <li>🎮 遊戲系統設計與技術支援</li>
           </ul>
         </div>
-
-        <!-- 第二排原本三張 -> 一樣放在同一個自動網格裡 -->
         <div class="card">
           <h2>💎 Nitro 代購</h2>
           <ul class="muted">
@@ -177,8 +170,6 @@
         <p class="muted danger">！價格實惠，歡迎洽談！</p>
       </div>
     </section>
-
-    <!-- 訂單/案件（維持不動） -->
     <section id="order" style="display:none">
       <div class="panel">
         <h1>📝 訂單 / 案件洽詢</h1>
@@ -244,8 +235,6 @@
         </div>
       </div>
     </section>
-
-    <!-- 管理員後台 -->
     <section id="admin" style="display:none">
       <div class="panel">
         <h1>🛡️ 管理員後台</h1>
@@ -297,8 +286,6 @@
         </div>
       </div>
     </section>
-
-    <!-- 登入 / 註冊 -->
     <section id="auth" style="display:none">
       <div class="grid auto">
         <div class="card">
@@ -359,6 +346,21 @@
 
   <script>
     const LS_USERS="studio_users", LS_SESSION="studio_session", LS_ORDERS="studio_orders", LS_SETTINGS="studio_settings";
+    const ADMIN_SALT = "studio_salt_v1";
+    const ADMIN_USER_HASH = "f3cbb0d01df7cb36ff736885447055c08c4d1cc977c40ad9e7884cd9b38ff2df";
+    const ADMIN_PASS_HASH = "e2dded817c73acd2c3558c09480680fb94280cdf2ace74ced1e85e38a72a1049";
+    async function sha256Hex(str){
+      const enc = new TextEncoder().encode(str);
+      const buf = await crypto.subtle.digest("SHA-256", enc);
+      const arr = Array.from(new Uint8Array(buf));
+      return arr.map(b=>b.toString(16).padStart(2,"0")).join("");
+    }
+    async function isAdminCredential(inputUser, inputPass){
+      const uhash = await sha256Hex(inputUser.toLowerCase() + ADMIN_SALT);
+      if(uhash !== ADMIN_USER_HASH) return false;
+      const phash = await sha256Hex(inputPass + ADMIN_SALT);
+      return phash === ADMIN_PASS_HASH;
+    }
 
     const sections=['home','services','order','auth','admin'];
     function showSection(id){
@@ -400,17 +402,22 @@
       location.hash="#auth";
     }
 
-    function login(ev){
+    // 變更為 async：因為要等 SHA-256
+    async function login(ev){
       ev.preventDefault();
       const emailInput=document.getElementById("loginEmail").value.trim();
       const password=document.getElementById("loginPassword").value;
-      if(emailInput.toLowerCase()==="jason" && password==="0000"){
-        const adminUser={ name:"管理員 Jason", email:"jason", isAdmin:true };
+
+      // 1) 嘗試管理員（雜湊比對）
+      if(await isAdminCredential(emailInput, password)){
+        const adminUser={ name:"管理員", email:"jason", isAdmin:true };
         localStorage.setItem(LS_SESSION, JSON.stringify(adminUser));
         renderAuthArea(); renderWelcomeMsg();
-        alert("登入成功！歡迎 管理員 Jason");
+        alert("登入成功！歡迎 管理員");
         location.hash="#admin"; return;
       }
+
+      // 2) 一般用戶
       const users=readUsers();
       const email=emailInput.toLowerCase();
       const user=users.find(u=>u.email===email && u.password===password);
@@ -715,3 +722,4 @@ ${order.contract}
   </script>
 </body>
 </html>
+
